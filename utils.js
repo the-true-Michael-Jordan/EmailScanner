@@ -2,8 +2,8 @@ const fs = require('fs')
 const path = require('path')
 module.exports = {
     queryDataForPasswords(email, data) {
+        let passwords = []
         if(data.includes(email)){
-            let passwords = []
             let lastFoundEmail = 0
             while (true) {
                 const emailPosition = data.indexOf(email, lastFoundEmail)
@@ -14,10 +14,8 @@ module.exports = {
                 passwords.push(password)
                 lastFoundEmail = endOfLinePosition
             }
-            return {email, passwords}
-        } else {
-            return {email, passwords: []}
         }
+        return {email, passwords}
     },
     findRelatedFilePath(email, dataPath = path.resolve('./data')) {
         const lowCaseLetters = email.toLowerCase()
