@@ -1,26 +1,31 @@
+const fs = require('fs')
+const path = require('path')
 module.exports = {
-    findPasswordsInBlob(email, blob) {
-        if(blob.includes(email)){
+    queryDataForPasswords(email, data) {
+        if(data.includes(email)){
             let passwords = []
             let lastFoundEmail = 0
             while (true) {
-                const emailPosition = blob.indexOf(email, lastFoundEmail)
+                const emailPosition = data.indexOf(email, lastFoundEmail)
                 if (emailPosition === -1) break
-                const endOfLinePosition = blob.indexOf('\n', emailPosition)
-                const emailPasswordPair = blob.slice(emailPosition, endOfLinePosition)
+                const endOfLinePosition = data.indexOf('\n', emailPosition)
+                const emailPasswordPair = data.slice(emailPosition, endOfLinePosition)
                 const password = emailPasswordPair.split(':')[1]
                 passwords.push(password)
                 lastFoundEmail = endOfLinePosition
             }
-            return passwords
+            return {email, passwords}
         } else {
-            return []
+            return {email, passwords: []}
         }
     },
-    findRelatedFilePath(email) {
-        const letters = email.split('')
-        let path = `${dataURL}/${letters[0]}/${letters[1]}`
-        const fileStats = fs.lstatSync(buildUrl)
-        return stats.isDirectory() ? `${path}/${letters[2]}` : path
+    findRelatedFilePath(email, dataPath = path.resolve('./data')) {
+        const lowCaseLetters = email.toLowerCase()
+        let path = `${dataPath}/${lowCaseLetters[0]}/${lowCaseLetters[1]}`
+        if (fs.existsSync(path)) {
+            const fileStats = fs.lstatSync(path)
+            return fileStats.isDirectory() ? `${path}/${lowCaseLetters[2]}` : path
+        }
+        return null
     }
 }
