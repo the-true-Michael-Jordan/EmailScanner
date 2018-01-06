@@ -21,7 +21,6 @@ module.exports = {
         const letters = email.split('')
         let path = `${dataURL}/${letters[0]}/${letters[1]}`
         const fileStats = fs.lstatSync(buildUrl)
-        if(stats.isDirectory()) buildUrl = `${buildUrl}/${letters[2]}`
-        return path
+        return stats.isDirectory() ? `${path}/${letters[2]}` : path
     }
 }
