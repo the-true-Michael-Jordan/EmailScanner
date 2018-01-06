@@ -16,5 +16,11 @@ module.exports = {
         } else {
             return []
         }
+    },
+    findRelatedFilePath(email) {
+        const letters = email.split('')
+        let path = `${dataURL}/${letters[0]}/${letters[1]}`
+        const fileStats = fs.lstatSync(buildUrl)
+        if(stats.isDirectory()) buildUrl.concat(`/${letters[2]}`)
     }
 }
