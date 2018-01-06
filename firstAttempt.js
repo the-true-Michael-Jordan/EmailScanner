@@ -1,6 +1,5 @@
-const fs = require('fs')//Filestream object to read/write files on the local disk
+const fs = require('fs')
 const {emails} = require('./emails.json')
-const dataURL = 'D:/Documents/BreachCompilation/data'
 const utils = require('./utils')
 //Structure of folder
 /*
@@ -13,7 +12,10 @@ data -
 */
 emails.forEach(email => {
     const path = utils.findRelatedFilePath(email)
-    if (path === null) return
+    if (path === null) {
+        console.log('No corresponding file found for ', email)
+        return
+    }
     console.log('Found file: ', path)
     console.log('Searching for: ', email)
     const data = fs.readFileSync(path, 'utf8')
