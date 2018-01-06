@@ -20,7 +20,10 @@ emails.forEach(email => {
     console.log('Found file:', path)
     console.log('Searching for:', email)
     const data = fs.readFileSync(path, 'utf8')
-    const queryResults = utils.queryDataForPasswords(email, data)
-    console.log('Query results:', queryResults.passwords.join(', ')) 
+    const queryResults = utils.queryDataForPasswords(email, data) //returns {email, passwords}
+    const foundPasswords = queryResults.passwords
+    
+    const formattedResults = foundPasswords.join(', ')
+    console.log('Query results:', formattedResults) 
 })
 
