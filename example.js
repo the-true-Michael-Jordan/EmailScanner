@@ -11,19 +11,19 @@ data -
             | - d.file
 */
 emails.forEach(email => {
-    console.log('\n')
+    console.log('Searching for:', email)
     const path = utils.findRelatedFilePath(email)
     if (path === null) {
-        console.log('No corresponding file found for', email)
+        console.log('No corresponding file found for', email, '\n')
         return
     }
     console.log('Found file:', path)
-    console.log('Searching for:', email)
     const data = fs.readFileSync(path, 'utf8')
     const queryResults = utils.queryDataForPasswords(email, data) //returns {email, passwords}
     const foundPasswords = queryResults.passwords
-    
+
     const formattedResults = foundPasswords.join(', ')
-    console.log('Query results:', formattedResults) 
+    console.log(`Found ${foundPasswords.length} password/s`)
+    console.log(`Query results: \n${formattedResults}`) 
 })
 
